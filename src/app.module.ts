@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from './user/interface/userEntity';
 
 
 @Module({
@@ -15,7 +16,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: process.env.DB_HOST,
       password: process.env.DB_PASSWORD,
       port:Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME
+      username: process.env.DB_USERNAME,
+      //CRIA AUTOMATICAMENTE O BANCO DE DADOS
+      synchronize:true,
+      entities:[UserEntity]
     })
     ,UserModule],
   controllers: [],
