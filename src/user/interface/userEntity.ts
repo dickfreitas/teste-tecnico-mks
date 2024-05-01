@@ -1,5 +1,6 @@
 import {Entity , Column , PrimaryGeneratedColumn} from 'typeorm'
 
+
 @Entity({name:'user'})
 export class UserEntity{
     @PrimaryGeneratedColumn('rowid')
@@ -10,5 +11,8 @@ export class UserEntity{
     email:string;
     @Column({name:'password' , nullable:false})
     password:string;
+    @Column({name:'typeUser' , nullable:false})
+    typeUser:number;
+    
 }
 
