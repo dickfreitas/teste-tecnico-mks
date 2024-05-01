@@ -37,7 +37,7 @@ export class RolesGuard implements CanActivate {
       const tokenPayload = this.jwtService.verify(authorization, { secret: process.env.JWT_SECRET });
       console.log({ secret: process.env.JWT_SECRET })
       // Verificar se o usuário possui uma função necessária
-      const hasRequiredRole = requiredRoles.some((role) => role === tokenPayload.typeUser);
+      const hasRequiredRole = requiredRoles.some((role) => role === tokenPayload.type_user);
       
       if (!hasRequiredRole) {
         throw new Error('User does not have required role');

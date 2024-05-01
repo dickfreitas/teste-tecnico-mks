@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserEntity } from 'src/user/interface/userEntity';
+import { UserEntity } from 'src/user/entities/userEntity';
 import { LoginDTO } from './dtos/loginDTO';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt'

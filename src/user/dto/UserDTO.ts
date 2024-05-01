@@ -1,11 +1,11 @@
 import { use } from "passport";
-import { UserEntity } from "../interface/userEntity";
+import { UserEntity } from "../entities/userEntity";
 
 export interface createUserDTO{
     name: string;
     email:string;
     password:string;
-    typeUser:string
+    type_user:number
 }
 
 export class ReturUserDTO{

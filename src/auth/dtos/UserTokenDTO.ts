@@ -3,5 +3,5 @@ export class UserTokenDTO{
     name: string;
     email:string;
     password:string;
-    typeUser:number
+    type_user:number
 }
