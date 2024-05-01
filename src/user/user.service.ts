@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException, NotFoundException } from '@nestjs/common';
 import { createUserDTO } from './dto/UserDTO';
 import { Repository } from 'typeorm'
 import { UserEntity } from './entities/userEntity';
@@ -36,6 +36,9 @@ export class UserService {
 
     
     async findUserByEmail(email:string):Promise<UserEntity>{
+        if(!email){
+            throw new MethodNotAllowedException('Enter a valid id')
+        }
         const user = await this.userRepository.findOne(
             {where:{
                 email,
@@ -43,14 +46,17 @@ export class UserService {
         )
 
         if(!user){
-            throw new Error("Usuario não encontrado")
+            throw new NotFoundException("User not Found")
         }
 
         return user
     }
 
 
-    async getFilmsByUser(id : number):Promise<UserEntity>{
+    async findFilmsByUser(id : number):Promise<UserEntity>{
+        if(!id){
+            throw new NotFoundException("Id user not found")
+        }
         return this.userRepository.findOne({
             where:{
                 id
@@ -63,7 +69,7 @@ export class UserService {
         const user = await this.userRepository.findOne({ where: { id: userId } });
 
         if(!user){
-            throw new Error("Filme não encontrado")
+            throw new NotFoundException("Film not found")
         }   
 
         if(updateUser.password){
@@ -74,13 +80,17 @@ export class UserService {
         return this.userRepository.save(user)
     }
 
-    async deleteFilms(userId: number):Promise<void>{
-        const film = await this.userRepository.findOne({where:{id:userId}})
+    async deleteUser(userId: number):Promise<void>{
+        if(!userId){
+            throw new MethodNotAllowedException('Enter a valid id')
+        }
+        
+        const user = await this.userRepository.findOne({where:{id:userId}})
 
-        if(!film){
-            throw new Error("Filme não encontrado")
+        if(!user){
+            throw new NotFoundException("Film not found")
         }
 
-        await this.userRepository.delete(film)
+        await this.userRepository.delete(user)
     }
 }

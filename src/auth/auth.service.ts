@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { UserEntity } from 'src/user/entities/userEntity';
 import { LoginDTO } from './dtos/loginDTO';
 import { UserService } from 'src/user/user.service';
@@ -25,7 +25,7 @@ export class AuthService {
         const passwordIsValid = await bcrypt.compare(loginDTO.password, user?.password);
 
         if(!user || !passwordIsValid){
-            throw new Error("Email or password invalid")
+            throw new NotAcceptableException("Email or password invalid")
         }
         
         return {

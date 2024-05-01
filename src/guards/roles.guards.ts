@@ -1,5 +1,5 @@
 
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ServiceUnavailableException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { UserTokenDTO } from 'src/auth/dtos/UserTokenDTO';
@@ -40,13 +40,13 @@ export class RolesGuard implements CanActivate {
       const hasRequiredRole = requiredRoles.some((role) => role === tokenPayload.type_user);
       
       if (!hasRequiredRole) {
-        throw new Error('User does not have required role');
+        throw new UnauthorizedException('User does not have required role');
       }
 
       return true;
     } catch (error) {
       
-      throw new Error('Invalid authorization token');
+      throw new ServiceUnavailableException('Invalid authorization token');
     }
   }
 }

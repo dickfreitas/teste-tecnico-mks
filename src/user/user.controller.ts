@@ -39,7 +39,7 @@ export class UserController {
     @Get('/:userId')
     @Roles(UserType.User)
     async filmsByUser(@Param('userId') userId: number){
-        return this.userService.getFilmsByUser(userId);
+        return this.userService.findFilmsByUser(userId);
     }
 
 
@@ -52,6 +52,6 @@ export class UserController {
     @Roles(UserType.Admin)
     @Delete('/:userId')
     async delete(@Param("userId") userId:number){
-        return this.userService.deleteFilms(userId)
+        return this.userService.deleteUser(userId)
     }
 }
