@@ -3,15 +3,15 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user/entities/userEntity';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, NestFactory } from '@nestjs/core';
 import { RolesGuard } from './guards/roles.guards';
 import { FilmsController } from './films/films.controller';
-import { FilmsService } from './films/films.service';
 import { FilmsModule } from './films/films.module';
 import { FilmsEntities } from './films/entities/filmesEntities';
+import { JwtModule } from '@nestjs/jwt';
+import { CacheModule } from '@nestjs/cache-manager';
+
 
 @Module({
   imports: [
@@ -30,7 +30,7 @@ import { FilmsEntities } from './films/entities/filmesEntities';
       migrations:[`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun:true
     })
-    ,UserModule,AuthModule, JwtModule, FilmsModule],
+    ,UserModule,AuthModule, JwtModule, FilmsModule, CacheModule.register()],
   controllers: [FilmsController],
   providers: [
     {
@@ -38,5 +38,7 @@ import { FilmsEntities } from './films/entities/filmesEntities';
       useClass: RolesGuard,
     },
   ],
+
+ 
 })
 export class AppModule {}

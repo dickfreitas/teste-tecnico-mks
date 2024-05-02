@@ -1,18 +1,22 @@
-import { Injectable, MethodNotAllowedException, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, MethodNotAllowedException, NotFoundException } from '@nestjs/common';
 import { createUserDTO } from './dto/UserDTO';
-import { Repository } from 'typeorm'
 import { UserEntity } from './entities/userEntity';
 import * as bcrypt from 'bcrypt'
 import { InjectRepository } from '@nestjs/typeorm';
-import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from './enum/user-type.enum';
 import { updateUserDTO } from './dto/updateUserDTO';
+import { UserRepository } from './repository/user-repository';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+import { use } from 'passport';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(UserEntity)
-        private readonly userRepository:Repository<UserEntity>
+        private readonly userRepository:UserRepository,
+        @Inject(CACHE_MANAGER)
+        private cacheManager:Cache
 
     ){}
 
@@ -30,8 +34,24 @@ export class UserService {
     }
 
     
-    async getAllUser():Promise<UserEntity[]>{
-        return this.userRepository.find()
+    async getAllUser():Promise<any>{
+
+
+        let users : UserEntity[] | undefined = await this.cacheManager.get('users')
+        
+        
+        if (!users) {
+            users = await this.userRepository.find()
+            if (users) {
+                const set = await this.cacheManager.set("users", users,  200 );
+
+            } else {
+                throw new NotFoundException("User not found");
+            }
+            
+        }
+        return users
+        
     }
 
     
@@ -52,17 +72,26 @@ export class UserService {
         return user
     }
 
-
-    async findFilmsByUser(id : number):Promise<UserEntity>{
-        if(!id){
-            throw new NotFoundException("Id user not found")
+    async findFilmsByUser(id: number): Promise<UserEntity> {
+        if (!id) {
+            throw new NotFoundException("Id user not found");
         }
-        return this.userRepository.findOne({
-            where:{
-                id
-            },
-            relations: ['films']
-        })
+    
+        let film: UserEntity = await this.cacheManager.get("films");
+        if (!film) {
+            film = await this.userRepository.findOne({
+                where: { id },
+                relations: ['films']
+            });
+            if (film) {
+                const set = await this.cacheManager.set("films", film,  200 );
+
+            } else {
+                throw new NotFoundException("User not found");
+            }
+            
+        }
+        return film;
     }
 
     async updatePassword(updateUser:updateUserDTO , userId:number):Promise<UserEntity>{
