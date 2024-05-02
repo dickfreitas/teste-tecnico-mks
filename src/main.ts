@@ -15,6 +15,6 @@ async function bootstrap() {
   SwaggerModule.setup('api' , app , document)
 
   const option = new DocumentBuilder().addBasicAuth()
-  await app.listen(8080);
+  await app.listen(process.env.PORT);
 }
 bootstrap();

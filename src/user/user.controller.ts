@@ -33,7 +33,11 @@ export class UserController {
         UserType.Admin)
     }
 
-    
+    @Get("/hello")
+    async helloWorld(){
+        return ("Hello World")
+    }
+
     @Get()
     @Roles(UserType.Admin)
     @ApiHeader({
