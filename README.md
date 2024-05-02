@@ -24,6 +24,10 @@ Redis
 $ npm install
 ```
 
+```bash
+$ docker pull postgres
+```
+
 ## Running the app
 
 ```bash

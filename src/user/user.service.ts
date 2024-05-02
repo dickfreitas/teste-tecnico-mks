@@ -1,4 +1,4 @@
-import { Inject, Injectable, MethodNotAllowedException, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, MethodNotAllowedException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { createUserDTO } from './dto/UserDTO';
 import { UserEntity } from './entities/userEntity';
 import * as bcrypt from 'bcrypt'
@@ -9,6 +9,7 @@ import { UserRepository } from './repository/user-repository';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { use } from 'passport';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Injectable()
 export class UserService {
@@ -23,7 +24,11 @@ export class UserService {
     async createUser(createUserDTO : createUserDTO , userType:UserType):Promise<UserEntity>{
         //CRIPTOGRAFIA DA SENHA DO USUARIO 
         const password = await bcrypt.hash(createUserDTO.password , 10);
+        const email = await this.userRepository.find({where: {email: createUserDTO.email}})
 
+        if(email){
+            throw new UnauthorizedException("Email ja cadastrado")
+        }
         return this.userRepository.save(
             {
                 ...createUserDTO,
