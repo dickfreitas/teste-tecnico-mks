@@ -5,6 +5,8 @@ import { FilmsEntities } from './entities/filmesEntities';
 import { updateFilmsDTO } from './dto/updateFilmsDTO';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enum/user-type.enum';
+import { ApiBody, ApiHeader } from '@nestjs/swagger';
+import { AddFilmsDTO } from './filmsSwaggerDTO/FilmsSwaggerDTO';
 
 
 
@@ -15,6 +17,11 @@ export class FilmsController {
 
     @Roles(UserType.User)
     @Post()
+    @ApiBody({type:AddFilmsDTO})
+    @ApiHeader({
+        name: 'Acess-Token User',
+        description: 'Acess-Token',
+      })
     async addFilms(@Body() respondeFilmsDTO : responseFilmsDTO):Promise<FilmsEntities>{
 
         return this.filmsService.assessmentByUser(respondeFilmsDTO)
@@ -23,12 +30,21 @@ export class FilmsController {
     
     @Roles(UserType.User)
     @Patch('/:filmsId')
+    @ApiHeader({
+        name: 'Acess-Token User ',
+        description: 'Acess-Token',
+    })
+    @ApiBody({type:updateFilmsDTO})
     async updateFilms(@Body() updateFilms: updateFilmsDTO, @Param("filmsId") filmsId:number){
         return this.filmsService.updateFilms(updateFilms , filmsId)
     }
 
     @Roles(UserType.Admin)
     @Delete('/:filmsId')
+    @ApiHeader({
+        name: 'Acess-Token User Admin',
+        description: 'Acess-Token',
+      })
     async delete(@Param("filmsId") filmsId:number){
         return this.filmsService.deleteFilms(filmsId)
     }

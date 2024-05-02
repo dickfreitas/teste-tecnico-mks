@@ -1,24 +1,28 @@
 import { use } from "passport";
 import { UserEntity } from "../entities/userEntity";
 
-export interface createUserDTO{
+
+export class createUserDTO{
+
     name: string;
+
+
     email:string;
+
+
     password:string;
+
+
     type_user:number
 }
 
-export class ReturUserDTO{
-    id:number;
+export class ReturnUserDTO{
     name: string;
-    email:string;
-    password:string;
+    email:string
 
     constructor(userEntity : UserEntity){
-        this.id=userEntity.id;
         this.name=userEntity.name;
         this.email=userEntity.email;
-        this.password=userEntity.password
 
     }
 }

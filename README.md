@@ -1,32 +1,24 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Teste Tecnico Back-End
+## Tarefa (funcional)
+Desenvolva um sistema de autenticação JWT.
+Você deve construir uma CRUD de um catálogo de filmes. Todos os endpoints dessa CRUD só devem ser consumidos por um usuário autenticado.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Stack utilizada
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+TypeScript
 
-## Description
+Nest.js
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+TypeORM
 
-## Installation
+Swagger
+
+Docker
+
+Redis
+
+## Instalação
+
 
 ```bash
 $ npm install
@@ -45,29 +37,139 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
 
-```bash
-# unit tests
-$ npm run test
+## Documentação
 
-# e2e tests
-$ npm run test:e2e
+[Documentação](http://localhost:8080/api#/)
 
-# test coverage
-$ npm run test:cov
+
+## Documentação da API
+
+#### Retorna todos os itens
+
+```http
+  GET /users
 ```
 
-## Support
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `Authorization` | `string` | **Obrigatório**. Token de login |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### Retorna um item
 
-## Stay in touch
+```http
+  GET /user/${id}
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `Authorization` | `string` | **Obrigatório**. Token de login |
+| `id`      | `string` | **Obrigatório**. O ID do item que você quer |
 
-## License
+#### Avaliação de filme dos usuarios
+```http
+  GET /user/films/${id}
+```
 
-Nest is [MIT licensed](LICENSE).
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `Authorization` | `string` | **Obrigatório**. Token de login |
+| `id`      | `string` | **Obrigatório**. O ID do item que você quer |
+
+
+#### Adiciona um novo usuario
+```http
+  POST /user
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `name` | `string` | **Obrigatório**. Nome no body da Requisição |
+| `email`      | `string` | **Obrigatório**. Email no body da Requisição |
+| `password` | `string` | **Obrigatório**. Password no body da Requisição |
+
+#### Adiciona um novo administrador
+```http
+  POST /user/admin
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `name` | `string` | **Obrigatório**. Nome no body da Requisição |
+| `email`      | `string` | **Obrigatório**. Email no body da Requisição |
+| `password` | `string` | **Obrigatório**. Password no body da Requisição |
+
+#### Login
+```http
+  POST /login
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `email`      | `string` | **Obrigatório**. Email no body da Requisição |
+| `password` | `string` | **Obrigatório**. Password no body da Requisição |
+
+#### Adiciona uma nova avaliação
+```http
+  POST /films
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `Authorization` | `string` | **Obrigatório**. Token de login |
+| `name`      | `string` | **Obrigatório**. Email no body da Requisição |
+| `user_id` | `number` | **Obrigatório**. User_id no body da Requisição |
+| `release_year`      | `number` | **Obrigatório**. Release_year no body da Requisição |
+| `category` | `string` | **Obrigatório**. Category no body da Requisição |
+| `assessment`      | `string` | **Obrigatório**. Assessment no body da Requisição |
+
+#### Atualiza um filme
+```http
+  PATCH /films/${id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `Authorization` | `string` | **Obrigatório**. Token de login |
+| `category`      | `string` | **Opcional**. Email no body da Requisição |
+| `release_year`      | `number` | **Opcional**. Release_year no body da Requisição |
+| `assessment`      | `string` | **Opcional**. Assessment no body da Requisição |
+
+#### Atualiza um usuario
+```http
+  PATCH /user/${id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `Authorization` | `string` | **Obrigatório**. Token de login |
+| `name` | `string` | **Opcional**. Nome no body da Requisição |
+| `email`      | `string` | **Opcional**. Email no body da Requisição |
+| `password` | `string` | **Opcional**. Password no body da Requisição |
+
+#### Deleta Usuario
+```http
+  DELETE /user/${id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `Authorization` | `string` | **Obrigatório**. Token de login |
+| `id`      | `string` | **Obrigatório**. O ID do item que você quer |
+
+#### Deleta Filme
+```http
+  DELETE /films/${id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `Authorization` | `string` | **Obrigatório**. Token de login |
+| `id`      | `string` | **Obrigatório**. O ID do item que você quer |
+
+
+
+
+## Aprendizados
+
+Um projeto que me desafiou do começo ao fim, tive que ir em busca de novos conhecimentos para a elaboração do mesmo, principalmente em Docker, TypeOrm e Swagger. Infelizmente não consegui aplicar o Redis, mas coloquei em pratica o Cacahe Manager do proprio Nestjs. Tenho um pouco mais de 2 anos de estudos na área, por isso motivo mesmo com dificuldades consegui desenvolver essa api que me foi proposto

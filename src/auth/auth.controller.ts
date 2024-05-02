@@ -2,12 +2,12 @@ import { Body, Controller, HttpCode, HttpStatus, Post, UsePipes, ValidationPipe 
 import { LoginDTO } from './dtos/loginDTO';
 
 import { UserService } from 'src/user/user.service';
-import { ReturUserDTO } from 'src/user/dto/UserDTO';
-import { privateDecrypt } from 'crypto';
 import { AuthService } from './auth.service';
-import { ReturLoginDTO } from './dtos/returnLoginDTO';
+import { ReturnLoginDTO } from './dtos/returnLoginDTO';
+import { ApiBody } from '@nestjs/swagger';
+import { LoginSwaggerDTO } from './authSwaggerDTOS/LoginSwaggerDTO';
 
-@Controller('auth')
+@Controller('login')
 export class AuthController {
     constructor(
         private readonly userService:UserService,
@@ -16,7 +16,8 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post()
-    async login(@Body() loginDTO:LoginDTO):Promise<ReturLoginDTO>{
+    @ApiBody({type:LoginSwaggerDTO})
+    async login(@Body() loginDTO:LoginDTO):Promise<ReturnLoginDTO>{
         return this.authService.login(loginDTO)
     }
 }
